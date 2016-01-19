@@ -1,18 +1,21 @@
 <?
 $clip_value = <<< 'clip_block'
-文件管理器缓存
-1、最简单经典的var_dump()
-2、配置error_log，能够解决很多疑难杂症
-
+条目1
+条目2
+条目1
+条目2
+条目1
+条目2
 clip_block;
 
 
-//bug
+
 if(isset($_POST['clip']))
 {
 $content=htmlspecialchars($_POST['clip']);
 $f=ltrim($_SERVER['PHP_SELF'], "/");
 $old_content=file_get_contents($f);
+//Here bug ! 要限定替换次数为一次,待修复
 file_put_contents($f,str_ireplace($clip_value, $content, $old_content) ); 
 }
 ?>
@@ -31,7 +34,6 @@ html,body{margin:0;padding:0;}
 textarea
 {
 padding:5px;
-
 margin: 0 5px 0 5px;
 outline:none;
 resize: none;
@@ -47,7 +49,6 @@ border-bottom:1px solid #0CF;
 {
 line-height:12px;
 padding:5px;
-
 text-align:center;
 color:#fff;
 font-size:20px;
@@ -67,9 +68,9 @@ right:5px;
 <div id="bottomNav" onclick="Show_Hidden(menu)">
 <!-- 绑定点击事件? id? -->
 <div id='menu' hidden="hidden">
-<span onclick="">撤销</span>
-<span onclick="">重做</span>
-
+<!-- 撤销重做在opera等浏览器上不支持,待修复 -->
+<span onclick="document.execCommand('Undo')">撤销</span>
+<span onclick="document.execCommand('Redo')">重做</span>
 <span onclick="local_Storage('local');">本地</span>
 <span onclick="local_Storage('server');">异地</span>
 <span onclick="local_Storage('write');">储存</span>
